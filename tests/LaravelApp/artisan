@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+use Allyson\MultiEnv\Tests\Orchestra\Commander;
+
+define('LARAVEL_START', microtime(true));
+
+require __DIR__ . '/../../vendor/autoload.php';
+
+$config = [
+    // 'env' => ['APP_KEY=""', 'DB_CONNECTION="testing"'],
+    'providers' => [],
+    'dont-discover' => [],
+];
+
+$commander = new Commander($config, getcwd());
+
+$commander->handle();

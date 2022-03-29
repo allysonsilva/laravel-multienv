@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="PkgApp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>The encoding standard used in this package.</description>
+
+    <ini name="memory_limit" value="128M" />
+
+    <!-- Arguments -->
+    <arg name="basepath" value="."/>
+    <arg name="tab-width" value="4"/>
+    <arg name="extensions" value="php"/>
+    <arg name="encoding" value="utf-8"/>
+    <arg name="parallel" value="4"/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+    <!-- <arg name="report" value="summary|code|full"/> -->
+    <!-- <arg name="report-width" value="auto"/> -->
+    <arg name="ignore" value="server.php,resources/views,*.blade.php*"/>
+
+    <!-- -n    - Do not print warnings (shortcut for -\-warning-severity=0) -->
+    <!-- -p    - Show progress of the run @see https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage#printing-progress-information -->
+    <!-- -s    - Show sniff codes in all reports -->
+    <arg value="ps"/>
+
+    <!-- Folders that will be tracked -->
+    <file>src</file>
+
+    <!-- Excludes -->
+    <exclude-pattern>*/database/migrations/*</exclude-pattern>
+    <exclude-pattern>*.(css|js|json|html|yml|yaml)</exclude-pattern>
+
+    <!-- ###### -->
+    <!-- SNIFFS -->
+    <!-- ###### -->
+
+    <rule ref="PSR12"/>
+
+    <!-- ######################## -->
+    <!-- Slevomat Coding Standard -->
+    <!-- ######################## -->
+
+    <!-- Enforces reasonable end bracket placement for multi-line arrays -->
+    <rule ref="SlevomatCodingStandard.Arrays.MultiLineArrayEndBracketPlacement.ArrayEndWrongPlacement"/>
+
+    <!-- Checks whitespaces around commas or between brackets(e.g. []) on single line arrays-->
+    <rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
+
+    <!-- Require a comma after the last element in multi-line array -->
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+
+    <!-- Require public/private/protected visibility on constants -->
+    <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
+
+    <!-- Reports useless late static binding -->
+    <rule ref="SlevomatCodingStandard.Classes.UselessLateStaticBinding"/>
+
+    <!-- Checks lines count between class members -->
+    <rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
+
+    <!-- Checks if the class members are structured in the correct order-->
+    <rule ref="SlevomatCodingStandard.Classes.ClassStructure"/>
+
+    <!-- Checks if constants have blank lines between then -->
+    <rule ref="SlevomatCodingStandard.Classes.ConstantSpacing"/>
+
+    <!-- Forbid empty lines around type declarations -->
+    <rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces">
+        <properties>
+            <property name="linesCountAfterOpeningBrace" value="0"/>
+            <property name="linesCountBeforeClosingBrace" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Require no spacing after spread operator -->
+    <rule ref="SlevomatCodingStandard.Operators.SpreadOperatorSpacing">
+        <properties>
+            <property name="spacesCountAfterOperator" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Require usage of ::class whenever possible -->
+    <!-- Require usage of ::class instead of __CLASS__, get_class(), get_class($this), get_called_class() and get_parent_class() -->
+    <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
+
+    <!-- Require no spaces before trait use, between trait uses and one space after trait uses -->
+    <rule ref="SlevomatCodingStandard.Classes.TraitUseSpacing">
+        <properties>
+            <property name="linesCountBetweenUses" value="0"/>
+            <property name="linesCountAfterLastUse" value="1"/>
+            <property name="linesCountBeforeFirstUse" value="0"/>
+            <property name="linesCountAfterLastUseWhenLastInClass" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Force phpDocs separation between diferrent annotations and remove extra `*` -->
+    <!-- Require specific order of phpDoc annotations with empty newline between specific groups -->
+    <rule ref="SlevomatCodingStandard.Commenting.DocCommentSpacing">
+        <properties>
+            <property name="linesCountBetweenDifferentAnnotationsTypes" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid useless annotations - Git and LICENCE file provide more accurate information -->
+    <rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations">
+        <properties>
+            <property name="forbiddenAnnotations" type="array">
+                <element value="@api"/>
+                <element value="@author"/>
+                <element value="@category"/>
+                <element value="@copyright"/>
+                <element value="@created"/>
+                <element value="@license"/>
+                <element value="@package"/>
+                <element value="@since"/>
+                <element value="@subpackage"/>
+                <element value="@version"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Forbid useless comments -->
+    <rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments">
+        <properties>
+            <property name="forbiddenCommentPatterns" type="array">
+                <element value="~^(?:(?!private|protected|static)\S+ )?(?:con|de)structor\.\z~i"/>
+                <element value="~^Created by .+\.\z~i"/>
+                <element value="~^(User|Date|Time): \S+\z~i"/>
+                <element value="~^\S+ [gs]etter\.\z~i"/>
+                <element value="~^Class \S+\z~i"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Forbid empty comments -->
+    <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
+
+    <!-- Forbid comments with single line written as one-liners -->
+    <rule ref="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment"/>
+
+    <!-- Checks if `parent` object calls have blank lines around then -->
+    <rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/>
+
+    <!-- Checks if properties have blank lines between then -->
+    <rule ref="SlevomatCodingStandard.Classes.PropertySpacing"/>
+
+    <!-- Enforces method signature to be spllited into multilines when method signature is too large -->
+    <rule ref="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature" />
+
+    <!-- Checks against private elements that are not used-->
+    <!-- <rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements"/> -->
+
+    <!-- Requires use of early exit when there is useless else and elseif on code-->
+    <rule ref="SlevomatCodingStandard.ControlStructures.EarlyExit.UselessElse"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.EarlyExit.UselessElseIf"/>
+
+    <!-- Enforces blank line around jump statements like continue or return -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing"/>
+
+    <!-- Require language constructs with parentheses -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.LanguageConstructWithParentheses"/>
+
+    <!-- Require new instances with parentheses -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.NewWithParentheses"/>
+
+    <!-- Requires multiline ternary when line is too large-->
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator">
+        <properties>
+            <property name="lineLengthLimit" value="80"/>
+        </properties>
+    </rule>
+
+    <!-- Require usage of null coalesce operator when possible -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
+
+    <!-- Require short ternary operator `?:` when possible -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireShortTernaryOperator"/>
+
+    <!-- Requires ternary operator when possible -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator"/>
+
+    <!-- Force yoda conditions -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireYodaComparison"/>
+
+    <!-- Forbid useless unreachable catch blocks -->
+    <rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
+
+    <!-- Enforces function calls to be spllited in more lines when the funcion call is too large -->
+    <rule ref="SlevomatCodingStandard.Functions.RequireMultiLineCall.RequiredMultiLineCall">
+        <properties>
+            <property name="minLineLength" value="80"/>
+        </properties>
+    </rule>
+
+    <!-- Enforces function calls to be on single line when function call is short -->
+    <rule ref="SlevomatCodingStandard.Functions.RequireSingleLineCall.RequiredSingleLineCall">
+        <properties>
+            <property name="maxLineLength" value="80"/>
+        </properties>
+    </rule>
+
+    <!-- Checks if references to \Throwable interface was made, instead of references to concrete class \Exception -->
+    <rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly.ReferencedGeneralException">
+        <type>warning</type>
+    </rule>
+
+    <!-- Looks for unused inherited variables passed to closure via `use` -->
+    <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure.UnusedInheritedVariable"/>
+
+    <!-- Checks against unused parameters -->
+    <rule ref="SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter"/>
+
+    <!-- Checks against useless parameter default value -->
+    <rule ref="SlevomatCodingStandard.Functions.UselessParameterDefaultValue.UselessParameterDefaultValue"/>
+
+    <!-- Forbid fancy group uses -->
+    <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+
+    <!-- Forbid multiple use statements on same line -->
+    <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
+
+    <!-- Forbid using absolute class name references (except global ones) -->
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly"/>
+
+    <!-- Forbid multiples namespaces in one file -->
+    <rule ref="SlevomatCodingStandard.Namespaces.RequireOneNamespaceInFile"/>
+
+    <!-- Enforces one space after namespace, disallows content between namespace name and semicolon and disallows use of bracketed syntax -->
+    <rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration"/>
+
+    <!-- Require newlines around namespace declaration -->
+    <rule ref="SlevomatCodingStandard.Namespaces.NamespaceSpacing">
+        <properties>
+            <property name="linesCountBeforeNamespace" value="1"/>
+            <property name="linesCountAfterNamespace" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Require empty newlines before and after uses -->
+    <rule ref="SlevomatCodingStandard.Namespaces.UseSpacing">
+        <properties>
+            <property name="linesCountAfterLastUse" value="1"/>
+            <property name="linesCountBeforeFirstUse" value="1"/>
+            <property name="linesCountBetweenUseTypes" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid unused use statements -->
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid superfluous leading backslash in use statements -->
+    <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+
+    <!-- Forbid useless uses of the same namespace -->
+    <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+
+    <!-- Forbid useless alias -->
+    <rule ref="SlevomatCodingStandard.Namespaces.UselessAlias"/>
+
+    <!-- Checks against simple comparisons because they do not compare types, e.g. `==` or `!=` -->
+    <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators">
+        <type>warning</type>
+    </rule>
+
+    <!-- Require the usage of assignment operators, eg `+=`, `.=` when possible -->
+    <rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator"/>
+
+    <!-- Forbid `list(...)` syntax -->
+    <rule ref="SlevomatCodingStandard.PHP.ShortList"/>
+
+    <!-- Forbid use of longhand cast operators -->
+    <rule ref="SlevomatCodingStandard.PHP.TypeCast"/>
+
+    <!-- Forbid useless semicolon -->
+    <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon"/>
+
+    <!-- Warns about possible useless parentheses. This sniff was setted as a warning because it does not work so well with complex expressions -->
+    <rule ref="SlevomatCodingStandard.PHP.UselessParentheses.UselessParentheses">
+        <type>warning</type>
+    </rule>
+
+    <!-- Disallow `mixed` type hints in phpDocs -->
+    <!-- <rule ref="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint"/> -->
+
+    <!-- Require use of short versions of scalar types (i.e. int instead of integer) -->
+    <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+
+    <!-- Checks if parameter with null default value is nullable-->
+    <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue.NullabilitySymbolRequired"/>
+
+    <!-- Require that the `null` phpDocs must be in the last position -->
+    <rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition"/>
+
+    <!-- Checks parameter type hint -->
+    <!-- <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
+        <type>warning</type>
+    </rule> -->
+
+    <!-- Require one space between typehint and variable, require no space between nullability sign and typehint -->
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+
+    <!-- Checks property type hint -->
+    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
+        <properties>
+            <!-- Setting `enableNativeTypeHint` to false means that PHPCS will not try to transform @var notations(e.g `@var int $property`) into native typehints on properties(e.g. `int $property`) -->
+            <property name="enableNativeTypeHint" value="false"/>
+        </properties>
+    </rule>
+
+    <!-- Checks return type hint -->
+    <!-- <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+        <type>warning</type>
+    </rule> -->
+
+    <!-- Forbid space around colon in return types -->
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing">
+        <!-- This rules include in PSR-12 -->
+        <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing.WhitespaceBeforeColon"/>
+    </rule>
+
+    <!-- Checks useless `@var` annotations on constants, because the type of constant is always clear -->
+    <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint.UselessVarAnnotation"/>
+
+    <!-- Checks against unnecessary duplicate spaces-->
+    <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces">
+        <properties>
+            <property name="ignoreSpacesInComment" value="true"/>
+            <property name="ignoreSpacesInAnnotation" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid duplicated variables assignments -->
+    <rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable"/>
+
+    <!-- Forbid useless variables -->
+    <rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>
+
+    <!-- ############ -->
+    <!-- PHPCS SNIFFS -->
+    <!-- ############ -->
+
+    <!-- Force array element indentation with 4 spaces -->
+    <rule ref="Generic.Arrays.ArrayIndent"/>
+
+    <!-- Forbid duplicate classes -->
+    <!-- Class and Interface names should be unique in a project. They should never be duplicated -->
+    <rule ref="Generic.Classes.DuplicateClassName"/>
+
+    <!-- Control Structures must have at least one statement inside of the body | Forbid empty statements -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement">
+        <!-- But allow empty catch -->
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch"/>
+    </rule>
+
+    <!-- Forbid final methods in final classes -->
+    <!-- Methods should not be declared final inside of classes that are declared final -->
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+
+    <!-- If statements that are always evaluated should not be used -->
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+
+    <!-- Forbid useless empty method overrides -->
+    <!-- Methods should not be defined that only call the parent method -->
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+
+    <!-- Force whitespace after a type cast -->
+    <rule ref="Generic.Formatting.SpaceAfterCast">
+        <properties>
+            <property name="spacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Force whitespace after the not operator `!` -->
+    <rule ref="Generic.Formatting.SpaceAfterNot">
+        <properties>
+            <property name="spacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid any content before opening tag -->
+    <!-- The opening php tag should be the first item in the file -->
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
+
+    <!-- Forbid alias functions, i.e. `delete()`, `sizeof()` -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="chop" value="rtrim"/>
+                <element key="close" value="closedir"/>
+                <element key="delete" value="unset"/>
+                <element key="doubleval" value="floatval"/>
+                <element key="fputs" value="fwrite"/>
+                <element key="ini_alter" value="ini_set"/>
+                <element key="is_double" value="is_float"/>
+                <element key="is_integer" value="is_int"/>
+                <element key="is_long" value="is_int"/>
+                <element key="is_real" value="is_float"/>
+                <element key="is_writeable" value="is_writable"/>
+                <element key="join" value="implode"/>
+                <element key="key_exists" value="array_key_exists"/>
+                <element key="pos" value="current"/>
+                <element key="show_source" value="highlight_file"/>
+                <element key="sizeof" value="count"/>
+                <element key="strchr" value="strstr"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Forbid useless inline string concatenation -->
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <!-- But multiline is useful for readability -->
+        <properties>
+            <property name="allowMultiline" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid comments starting with # -->
+    <rule ref="PEAR.Commenting.InlineComment"/>
+
+    <!-- Arbitrary sets of parentheses should have no spaces inside -->
+    <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid spaces around square brackets -->
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing">
+        <exclude name="Squiz.Arrays.ArrayBracketSpacing.SpaceBeforeBracket"/>
+    </rule>
+
+    <!-- Force array declaration structure -->
+    <rule ref="Squiz.Arrays.ArrayDeclaration">
+        <!-- Does not handle wrapped content -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNewLine"/>
+        <!-- Disable alignment of braces -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned"/>
+        <!-- Disable arrow alignment -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned"/>
+        <!-- Uses indentation of only single space -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.KeyNotAligned"/>
+        <!-- Disable force ever value to have a key -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.KeySpecified"/>
+        <!-- Disable force single element to be inline -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.NoComma"/>
+        <!-- Checked by SlevomatCodingStandard.Arrays.TrailingArrayComma.MissingTrailingComma -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.NoCommaAfterLast"/>
+        <!-- Allow multiple values on a single line -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.SingleLineNotAllowed"/>
+        <!-- Disable alignment of values -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNoNewline"/>
+        <!-- Disable alignment of values with opening brace -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned"/>
+    </rule>
+
+    <!-- Forbid class being in a file with different name -->
+    <rule ref="Squiz.Classes.ClassFileName"/>
+
+    <!-- Force `self::` for self-reference, force lower-case self, forbid spaces around `::` -->
+    <rule ref="Squiz.Classes.SelfMemberReference">
+        <!-- Disable force self:: calls -->
+        <exclude name="Squiz.Classes.SelfMemberReference.NotUsed"/>
+    </rule>
+
+    <!-- Force phpDoc alignment -->
+    <rule ref="Squiz.Commenting.DocCommentAlignment">
+        <!-- Space needed for indented annotations -->
+        <exclude name="Squiz.Commenting.DocCommentAlignment.SpaceAfterStar"/>
+    </rule>
+
+    <!-- If a function throws any exceptions, they should be documented in a @throws tag -->
+    <rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>
+
+    <!-- Forbid `AND` and `OR`, require `&&` and `||` -->
+    <rule ref="Squiz.Operators.ValidLogicalOperators"/>
+
+    <!-- Forbid functions inside functions -->
+    <rule ref="Squiz.PHP.InnerFunctions"/>
+
+    <!-- Require PHP function calls in lowercase -->
+    <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
+
+    <!-- Forbid strings in `"` unless necessary -->
+    <rule ref="Squiz.Strings.DoubleQuoteUsage">
+        <!-- Allow variables inside double quoted strings -->
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
+    </rule>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
+        <message>Variable "%s" not allowed in double quoted string; use sprintf() or concatenation instead</message>
+    </rule>
+
+    <!-- Forbid blank line after function opening brace -->
+    <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+
+    <!-- Require space after language constructs -->
+    <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+
+    <!-- Require space around logical operators -->
+    <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+
+    <!-- Forbid spaces around `->` operator -->
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Force one space before and after assignment -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+            <property name="ignoreSpacingBeforeAssignments" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Forbid superfluous whitespaces -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <!-- Turned on by PSR2 -> turning back off -->
+            <property name="ignoreBlankLines" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines">
+        <!-- Forbid duplicated empty lines -->
+        <severity>5</severity>
+    </rule>
+
+    <!-- Forbid spaces before semicolon `;` -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+    <!-- Function declarations follow the "BSD/Allman style" -->
+    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+
+    <!-- Forbid `$this` inside static function -->
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <properties>
+            <property name="equalsSpacing" value="1"/>
+        </properties>
+
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterHint"/><!-- already checked by SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing.MultipleSpacesBetweenTypeHintAndParameter -->
+    </rule>
+
+    <!-- Force whitespace before and after concatenation -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+            <property name="spacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Require 1 line before and after function, except at the top and bottom -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
+        <!-- does not allow PHPUnit ignore comments -->
+        <!-- <exclude name="Squiz.WhiteSpace.FunctionSpacing.After"/> -->
+        <!-- does not allow PHPUnit ignore comments -->
+        <!-- <exclude name="Squiz.WhiteSpace.FunctionSpacing.AfterLast"/> -->
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.DuplicateReturn">
+        <message>Only 1 @return annotation is allowed in a function comment</message>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.InvalidNoReturn">
+        <message>Function has no return statement, but annotation @return is present</message>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+        <message>@param annotation for parameter "%s" missing</message>
+    </rule>
+
+    <!-- Allow TODO tags -->
+    <rule ref="Generic.Commenting.Todo.CommentFound">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Generic.Commenting.Todo.TaskFound">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Generic.Commenting.Todo.CommentFound">
+        <severity phpcbf-only="true">0</severity>
+    </rule>
+</ruleset>

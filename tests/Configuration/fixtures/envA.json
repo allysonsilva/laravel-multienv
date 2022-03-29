@@ -1,0 +1,12 @@
+{
+    "name": "NAME_Env_A",
+    "env": "ENV_Env_A",
+    "debug": "DEBUG_Env_A",
+    "url": "URL_Env_A",
+    "key": "KEY_Env_A",
+    "app": {
+        "name": "NAME_Env_A",
+        "env": "ENV_Env_A",
+        "debug": true
+    }
+}

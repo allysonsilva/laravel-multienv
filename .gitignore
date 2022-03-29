@@ -1,0 +1,15 @@
+/vendor
+/report
+/logging
+/tests/reports
+/tests/**/config/envs.php
+.env
+.phpcs-cache
+.phpunit.result.cache
+composer.lock
+phpstan.neon
+phpstan-baseline.neon
+phpmd.baseline.xml
+ruleset.xml
+phpmd.xml
+phpcs.xml

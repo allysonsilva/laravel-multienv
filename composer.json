@@ -1,0 +1,67 @@
+{
+    "name": "allysonsilva/laravel-multienv",
+    "description": "This package allows you to use multiple .envs in multitenant environment",
+    "license": "MIT",
+    "keywords": [
+        "allyson",
+        "env",
+        "multienv",
+        "multitenancy",
+        "multi-tenants",
+        "php",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name": "Allyson Silva",
+            "email": "dev@allyson.dev",
+            "homepage": "https://allyson.dev",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/allysonsilva/laravel-multienv",
+    "require": {
+        "php": ">=7.4",
+        "laravel/framework": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.22",
+        "phpunit/phpunit": "^9.5"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Allyson\\MultiEnv\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\": "tests/LaravelApp/app/",
+            "Allyson\\MultiEnv\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Allyson\\MultiEnv\\MultiEnvServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": [
+            "@test:analyse",
+            "@test:standard",
+            "@test:mess",
+            "@test:unit"
+        ],
+        "test:analyse": "php -d memory_limit=1G vendor/bin/phpstan analyse --error-format=table --ansi --memory-limit=1G",
+        "test:mess": "phpmd src ansi phpmd.xml.dist --suffixes php",
+        "test:standard": "phpcs --report=full --report-width=auto",
+        "test:unit": "phpunit --colors=always"
+    }
+}

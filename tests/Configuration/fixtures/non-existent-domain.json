@@ -1,0 +1,12 @@
+{
+    "name": null,
+    "env": null,
+    "debug": null,
+    "url": null,
+    "key": null,
+    "app": {
+        "name": "Laravel App Name",
+        "env": "local",
+        "debug": true
+    }
+}

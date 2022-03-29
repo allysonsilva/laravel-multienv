@@ -1,0 +1,144 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    # Larastan
+    - vendor/nunomaduro/larastan/extension.neon
+    # PHPStan Rules - Symplify
+    - vendor/symplify/astral/config/services.neon
+    - vendor/symplify/phpstan-rules/config/services/services.neon
+    - vendor/symplify/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - vendor/symplify/phpstan-rules/packages/symfony/config/services.neon
+    - vendor/symplify/phpstan-rules/packages/nette/config/services.neon
+
+rules:
+    # PHPStan Rules - Symplify
+    - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+    - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule
+    # - Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule
+    - Symplify\PHPStanRules\Rules\NoVoidGetterMethodRule
+    - Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule
+    - Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
+    - Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
+    - Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
+    - Symplify\PHPStanRules\Rules\NoMissingDirPathRule
+    - Symplify\PHPStanRules\Rules\NoAbstractMethodRule
+    - Symplify\PHPStanRules\Rules\NoReferenceRule
+    - Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
+    - Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule
+    # - Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule
+    # Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule
+    - Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule
+    - Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
+    - Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
+    - Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule
+    - Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
+    - Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule
+    - Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule
+    - Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
+    - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
+    - Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule
+    - Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
+    - Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
+    - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
+    - Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule
+    - Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule
+    - Symplify\PHPStanRules\Rules\ConstantMapRuleRule
+    - Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule
+    - Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
+    - Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule
+    - Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule
+    - Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
+    - Symplify\PHPStanRules\Rules\PrefixAbstractClassRule
+    - Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule
+    - Symplify\PHPStanRules\Rules\UppercaseConstantRule
+    # PHPStan Rules - ergebnis
+    - Ergebnis\PHPStan\Rules\Closures\NoNullableReturnTypeDeclarationRule
+    - Ergebnis\PHPStan\Rules\Closures\NoParameterWithNullableTypeDeclarationRule
+    - Ergebnis\PHPStan\Rules\Expressions\NoErrorSuppressionRule
+    - Ergebnis\PHPStan\Rules\Expressions\NoEvalRule
+    - Ergebnis\PHPStan\Rules\Functions\NoNullableReturnTypeDeclarationRule
+    - Ergebnis\PHPStan\Rules\Functions\NoParameterWithNullableTypeDeclarationRule
+    - Ergebnis\PHPStan\Rules\Functions\NoParameterWithNullDefaultValueRule
+    - Ergebnis\PHPStan\Rules\Methods\FinalInAbstractClassRule
+    - Ergebnis\PHPStan\Rules\Methods\NoConstructorParameterWithDefaultValueRule
+    - Ergebnis\PHPStan\Rules\Methods\NoNullableReturnTypeDeclarationRule
+    - Ergebnis\PHPStan\Rules\Methods\NoParameterWithNullableTypeDeclarationRule
+    - Ergebnis\PHPStan\Rules\Methods\NoParameterWithNullDefaultValueRule
+    - Ergebnis\PHPStan\Rules\Methods\PrivateInFinalClassRule
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            toleratedNestingLevel: 2
+
+    -
+        class: Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minimumLineCount: 4
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenComplexFunctions:
+                - 'array_filter'
+            maximumStmtCount: 2
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions:
+                - 'd'
+                - 'dd'
+                - 'dump'
+                - 'var_dump'
+                - 'extract'
+                - 'curl_*'
+                - 'compact'
+                - 'property_exists'
+                - 'spl_autoload_register'
+                - 'spl_autoload_unregister'
+                - array_walk
+                preg_match: "Use Nette\\Utils\\Strings::match() instead"
+                preg_match_all: "Use Nette\\Utils\\Strings::matchAll() instead"
+                preg_replace: "Use Nette\\Utils\\Strings::replace() instead"
+                preg_replace_callback: "Use Nette\\Utils\\Strings::replace() instead"
+                json_encode: "Use Nette\\Utils\\Json::encode() instead"
+                json_decode: "Use Nette\\Utils\\Json::decode() instead"
+
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCognitiveComplexity: 5
+
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 20
+
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedChainTypes:
+                - Illuminate\Support\Str
+                - Illuminate\Support\Collection
+
+parameters:
+    level: max
+    paths:
+        - src
+        - config
+    reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: false

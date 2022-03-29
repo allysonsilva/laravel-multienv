@@ -1,0 +1,41 @@
+name: PHP CodeSniffer - Coding Standards
+
+on:
+    push:
+        paths:
+            - '**.php'
+            - 'phpcs.xml.dist'
+
+jobs:
+
+    phpcs:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: ['8.1', '8.0']
+                slevomat-coding-standard: [^7.0]
+                squizlabs-php-codesniffer: [^3.6]
+
+        name: "PHPCS | PHP: ${{ matrix.php }}"
+
+        steps:
+
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  coverage: none
+
+            - name: Install Dependencies
+              run: |
+                composer require \
+                  "slevomat/coding-standard:${{ matrix.slevomat-coding-standard }}" \
+                  "squizlabs/php_codesniffer:${{ matrix.squizlabs-php-codesniffer }}" \
+                  --no-interaction --no-update
+                composer update --prefer-stable --prefer-dist --no-interaction --ansi
+
+            - name: Run PHPCS
+              run: composer test:standard
