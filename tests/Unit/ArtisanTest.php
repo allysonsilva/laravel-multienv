@@ -26,6 +26,7 @@ class ArtisanTest extends TestCase
         $this->updateEnvsConfigFile();
 
         $this->artisan('route:cache', ['--domain' => 'site1.test'])
+             ->assertSuccessful()
              ->expectsOutput(Mockery::pattern('/^Route cache cleared/'))
              ->expectsOutput(Mockery::pattern('/^Routes cached successfully/'));
 
@@ -40,9 +41,11 @@ class ArtisanTest extends TestCase
         self::assertSame($this->app->getCachedRoutesPath(), $cachedRoutesFilename);
 
         $this->get('http://site1.test')
+             ->assertSuccessful()
              ->assertSeeText('site1.test/');
 
         $this->get('http://site1.test/other')
+             ->assertSuccessful()
              ->assertSeeText('site1.test/other');
 
         $this->get('http://site2.test')
@@ -71,6 +74,7 @@ class ArtisanTest extends TestCase
     public function cache_all_routes_when_domain_does_not_exist(): void
     {
         $this->artisan('route:cache')
+             ->assertSuccessful()
              ->expectsOutput(Mockery::pattern('/^Route cache cleared/'))
              ->expectsOutput(Mockery::pattern('/^Routes cached successfully/'));
 
@@ -87,12 +91,15 @@ class ArtisanTest extends TestCase
         self::assertSame($this->app->getCachedRoutesPath(), $cachedRoutesFilename);
 
         $this->get('http://site1.test')
+             ->assertSuccessful()
              ->assertSeeText('site1.test/');
 
         $this->get('http://site2.test/')
+             ->assertSuccessful()
              ->assertSeeText('site2.test/');
 
         $this->get('http://other-domain.test/')
+             ->assertSuccessful()
              ->assertSeeText('other-domain.test/');
     }
 
@@ -119,6 +126,7 @@ class ArtisanTest extends TestCase
         // $consoleOutput = $this->runArtisan('config:cache', '--domain=site-XYZ.test')->getOutput();
 
         $this->artisan('config:cache', ['--domain' => 'site2.test'])
+             ->assertSuccessful()
              ->expectsOutput(Mockery::pattern('/^Configuration cache cleared/'))
              ->expectsOutput(Mockery::pattern('/^Configuration cached successfully/'))
              ->run();
@@ -138,6 +146,7 @@ class ArtisanTest extends TestCase
         Env::getRepository()->clear('APP_CONFIG_CACHE');
 
         $this->artisan('config:cache', ['--domain' => 'site1.test'])
+             ->assertSuccessful()
              ->expectsOutput(Mockery::pattern('/^Configuration cache cleared/'))
              ->expectsOutput(Mockery::pattern('/^Configuration cached successfully/'))
              ->run();
@@ -162,6 +171,7 @@ class ArtisanTest extends TestCase
     public function cache_all_configs_when_domain_does_not_exist(): void
     {
         $this->artisan('config:cache')
+             ->assertSuccessful()
              ->expectsOutput(Mockery::pattern('/^Configuration cache cleared/'))
              ->expectsOutput(Mockery::pattern('/^Configuration cached successfully/'));
 

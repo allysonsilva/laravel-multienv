@@ -16,11 +16,9 @@ class HttpTest extends TestCase
     {
         parent::setUp();
 
-        Route::domain('site2.test')->group(function () {
-            Route::get('domain-route', function () {
-                return response()->json(config('domain'));
-            })->middleware(['api']);
-        });
+        Route::domain('site2.test')
+             ->get('domain-route', fn () => response()->json(config('domain')))
+             ->middleware(['api']);
     }
 
     /**
@@ -43,6 +41,7 @@ class HttpTest extends TestCase
         // $this->refreshConfiguration();
 
         $this->getJson('http://site2.test/domain-route')
+             ->assertSuccessful()
              ->assertJson($this->getFixture('env.site2')['domain']);
     }
 }

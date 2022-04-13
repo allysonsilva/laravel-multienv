@@ -21,11 +21,11 @@
     ],
     "homepage": "https://github.com/allysonsilva/laravel-multienv",
     "require": {
-        "php": ">=7.4",
-        "laravel/framework": "^8.0"
+        "php": ">=8.0",
+        "laravel/framework": "^9.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.22",
+        "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5"
     },
     "minimum-stability": "dev",

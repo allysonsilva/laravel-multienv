@@ -18,7 +18,7 @@ class HttpKernel extends LaravelHttpKernel
      * @var array
      */
     protected $middleware = [
-        // \Illuminate\Http\Middleware\TrustProxies::class,
+        \Illuminate\Http\Middleware\TrustProxies::class,
         // \Illuminate\Http\Middleware\HandleCors::class,
         \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,

@@ -24,7 +24,7 @@ class Commander extends OrchestraCommander
     public function laravel()
     {
         if (! $this->app) {
-            $this->app = Application::create($this->getBasePath(), null, [
+            $this->app = Application::create(basePath: $this->getBasePath(), options: [
                 'extra' => [
                     'providers' => $this->config['providers'] ?? [],
                     'dont-discover' => $this->config['dont-discover'] ?? [],

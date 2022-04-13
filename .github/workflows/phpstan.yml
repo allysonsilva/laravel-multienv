@@ -19,7 +19,7 @@ jobs:
                 php: ['8.1', '8.0']
                 phpstan: [^1.0]
                 symplify-rules: ['10.1.2']
-                nunomaduro-larastan: [^1.0]
+                nunomaduro-larastan: [^2.0]
                 ergebnis-phpstan-rules: [^1.0]
 
         name: "PHPStan | PHP: ${{ matrix.php }}"

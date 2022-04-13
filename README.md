@@ -22,8 +22,15 @@
 
 The package has been developed and tested to work with the following minimum requirements:
 
-- *PHP 7.4*
-- *Laravel 8.0*
+- *PHP 8.0*
+- *Laravel 9.0*
+
+### Laravel version Compatibility
+
+| Laravel | PHP |    Package   |
+|:-------:|:---:|:------------:|
+|    9.x  | 8.0 |   **^2.0**   |
+|    8.x  | 7.4 |   **^1.0**   |
 
 ### Install the Package
 
@@ -289,7 +296,7 @@ If you discover any security related issues, please email github@allyson.dev ins
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 [ico-php]: https://img.shields.io/packagist/php-v/allysonsilva/laravel-multienv?color=%234F5B93&logo=php
-[ico-laravel]: https://img.shields.io/static/v1?label=laravel&message=%E2%89%A58.0&color=ff2d20&logo=laravel
+[ico-laravel]: https://img.shields.io/static/v1?label=laravel&message=%E2%89%A59.0&color=ff2d20&logo=laravel
 [ico-actions]: https://github.com/allysonsilva/laravel-multienv/actions/workflows/ci.yml/badge.svg
 [ico-codecov]: https://codecov.io/gh/allysonsilva/laravel-multienv/branch/main/graph/badge.svg?token=H546OKODQB
 [ico-version]: https://img.shields.io/packagist/v/allysonsilva/laravel-multienv.svg?label=stable

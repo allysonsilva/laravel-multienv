@@ -38,16 +38,6 @@ trait SetUpBefore
     }
 
     /**
-     * Get base path.
-     *
-     * @return string
-     */
-    protected function getBasePath()
-    {
-        return static::applicationBasePath();
-    }
-
-    /**
      * Resolve application setUp.
      *
      * @return void

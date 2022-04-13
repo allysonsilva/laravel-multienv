@@ -33,7 +33,9 @@ class TestCase extends Orchestra
             if (! is_file("{$this->getBasePath()}/config/envs.php")) {
                 $this->copyEnvsToRoot('.env.non-existent-domain');
 
-                $this->artisan('vendor:publish', ['--tag' => 'envs-config', '--force' => true, ])->run();
+                $this->artisan('vendor:publish', ['--tag' => 'envs-config', '--force' => true, ])
+                     ->assertSuccessful()
+                     ->run();
 
                 $this->app->make(LaravelLoadConfiguration::class)->bootstrap($this->app);
             }
