@@ -22,11 +22,18 @@
     "homepage": "https://github.com/allysonsilva/laravel-multienv",
     "require": {
         "php": ">=8.0",
-        "laravel/framework": "^9.0"
+        "laravel/framework": "^9.32"
     },
     "require-dev": {
+        "ergebnis/phpstan-rules": "^1.0",
+        "nunomaduro/larastan": "^2.2",
         "orchestra/testbench": "^7.0",
-        "phpunit/phpunit": "^9.5"
+        "phpmd/phpmd": "^2.13",
+        "phpstan/phpstan": "^1.8",
+        "phpunit/phpunit": "^9.5",
+        "slevomat/coding-standard": "^8.5",
+        "squizlabs/php_codesniffer": "^3.7",
+        "symplify/phpstan-rules": "10.1.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -43,7 +50,10 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "laravel": {

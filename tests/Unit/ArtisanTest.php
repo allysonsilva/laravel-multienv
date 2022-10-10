@@ -27,8 +27,7 @@ class ArtisanTest extends TestCase
 
         $this->artisan('route:cache', ['--domain' => 'site1.test'])
              ->assertSuccessful()
-             ->expectsOutput(Mockery::pattern('/^Route cache cleared/'))
-             ->expectsOutput(Mockery::pattern('/^Routes cached successfully/'));
+             ->expectsOutput(Mockery::pattern('/Routes cached successfully/'));
 
         $cachedRoutesFilename = base_path('bootstrap/cache/routes-site1-test.php');
 
@@ -75,8 +74,7 @@ class ArtisanTest extends TestCase
     {
         $this->artisan('route:cache')
              ->assertSuccessful()
-             ->expectsOutput(Mockery::pattern('/^Route cache cleared/'))
-             ->expectsOutput(Mockery::pattern('/^Routes cached successfully/'));
+             ->expectsOutput(Mockery::pattern('/Routes cached successfully/'));
 
         $cachedRoutesFilename = base_path('bootstrap/cache/routes-v7.php');
         $cachedRoutesContent = file_get_contents($cachedRoutesFilename);
@@ -127,8 +125,7 @@ class ArtisanTest extends TestCase
 
         $this->artisan('config:cache', ['--domain' => 'site2.test'])
              ->assertSuccessful()
-             ->expectsOutput(Mockery::pattern('/^Configuration cache cleared/'))
-             ->expectsOutput(Mockery::pattern('/^Configuration cached successfully/'))
+             ->expectsOutput(Mockery::pattern('/Configuration cached successfully/'))
              ->run();
 
         $this->assertTrue($this->app->configurationIsCached());
@@ -147,8 +144,7 @@ class ArtisanTest extends TestCase
 
         $this->artisan('config:cache', ['--domain' => 'site1.test'])
              ->assertSuccessful()
-             ->expectsOutput(Mockery::pattern('/^Configuration cache cleared/'))
-             ->expectsOutput(Mockery::pattern('/^Configuration cached successfully/'))
+             ->expectsOutput(Mockery::pattern('/Configuration cached successfully/'))
              ->run();
 
         $this->assertTrue($this->app->configurationIsCached());
@@ -172,8 +168,7 @@ class ArtisanTest extends TestCase
     {
         $this->artisan('config:cache')
              ->assertSuccessful()
-             ->expectsOutput(Mockery::pattern('/^Configuration cache cleared/'))
-             ->expectsOutput(Mockery::pattern('/^Configuration cached successfully/'));
+             ->expectsOutput(Mockery::pattern('/Configuration cached successfully/'));
 
         $cachedConfigsFilename = base_path('bootstrap/cache/config.php');
         $cachedConfigs = require $cachedConfigsFilename;
@@ -187,5 +182,99 @@ class ArtisanTest extends TestCase
         $this->assertEquals($cachedConfigs['domain'], $this->getFixture('non-existent-domain'));
         $this->assertTrue($this->app->configurationIsCached());
         $this->assertSame($this->app->getCachedConfigPath(), base_path('bootstrap/cache/config.php'));
+    }
+
+    /**
+     * @test
+     * @testdox Using the `artisan optimize` command to cache settings and routes
+     */
+    public function caching_with_optimize_command(): void
+    {
+        $this->artisan('optimize')
+             ->assertSuccessful()
+             ->expectsOutput(Mockery::pattern('/Caching the framework bootstrap files/'))
+          //    ->expectsOutput(Mockery::pattern('/config(?:.+) DONE/'))
+             ->expectsOutput(Mockery::pattern('/Configuration cached successfully/'))
+             ->expectsOutput(Mockery::pattern('/Routes cached successfully/'));
+
+        $cachedConfigsFilename = base_path('bootstrap/cache/config.php');
+        $cachedConfigs = require $cachedConfigsFilename;
+
+        self::assertEquals($cachedConfigs['domain'], $this->getFixture('non-existent-domain'));
+
+        $this->artisan('optimize:clear')
+             ->assertSuccessful()
+             ->expectsOutput(Mockery::pattern('/Clearing cached bootstrap files/'))
+             ->expectsOutput(Mockery::pattern('/Route cache cleared successfully/'))
+             ->expectsOutput(Mockery::pattern('/Configuration cache cleared successfully/'));
+
+        self::assertFalse(file_exists($cachedConfigsFilename));
+    }
+
+    /**
+     * @test
+     * @testdox It should be possible to use custom environment variables in the `artisan optimize` command
+     */
+    public function caching_with_optimize_command_custom_env(): void
+    {
+        $this->copyEnvsToRoot('.envA', '.envB');
+
+        // Required to load new .env files
+        $this->refreshConfiguration();
+
+        $this->artisan('optimize')
+             ->assertSuccessful()
+             ->expectsOutput(Mockery::pattern('/Caching the framework bootstrap files/'))
+             ->expectsOutput(Mockery::pattern('/Configuration cached successfully/'))
+             ->expectsOutput(Mockery::pattern('/Routes cached successfully/'));
+
+        self::assertTrue(app()->configurationIsCached());
+        self::assertEquals(config('domain'), $this->getFixture('envB'));
+    }
+
+    /**
+     * @test
+     * @testdox It should be possible to use the `--domain` option in the optimize commands
+     */
+    public function caching_with_optimize_command_with_domain(): void
+    {
+        config(['envs.domains' => [
+            'site1.test' => [
+                'APP_ROUTES_CACHE' => 'routes-site1-test.php',
+                'APP_CONFIG_CACHE' => 'config-site1-test.php',
+            ],
+        ]]);
+
+        $this->updateEnvsConfigFile();
+
+        $this->copyEnvsToEnvs('.env.site1.test');
+
+        $this->artisan('optimize', ['--domain' => 'site1.test'])
+             ->assertSuccessful()
+             ->expectsOutput(Mockery::pattern('/Caching the framework bootstrap files/'))
+             ->expectsOutput(Mockery::pattern('/Configuration cached successfully/'))
+             ->expectsOutput(Mockery::pattern('/Routes cached successfully/'));
+
+        $this->reloadApplication();
+
+        $cachedRoutesFilename = base_path('bootstrap/cache/routes-site1-test.php');
+        $cachedConfigsFilename = base_path('bootstrap/cache/config-site1-test.php');
+
+        self::assertTrue(app()->routesAreCached());
+        self::assertSame(app()->getCachedRoutesPath(), $cachedRoutesFilename);
+
+        self::assertTrue(app()->configurationIsCached());
+        self::assertSame(app()->getCachedConfigPath(), $cachedConfigsFilename);
+
+        self::assertEquals(config('domain'), $this->getFixture('env.site1')['domain']);
+
+        $this->artisan('optimize:clear', ['--domain' => 'site1.test'])
+             ->assertSuccessful()
+             ->expectsOutput(Mockery::pattern('/Clearing cached bootstrap files/'))
+             ->expectsOutput(Mockery::pattern('/Route cache cleared successfully/'))
+             ->expectsOutput(Mockery::pattern('/Configuration cache cleared successfully/'));
+
+        self::assertFalse(file_exists($cachedRoutesFilename));
+        self::assertFalse(file_exists($cachedConfigsFilename));
     }
 }

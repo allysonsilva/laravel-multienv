@@ -4,10 +4,10 @@ namespace Allyson\MultiEnv\Console\Commands;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Allyson\MultiEnv\Console\Concerns\CommonOptions;
-use Illuminate\Foundation\Console\ConfigCacheCommand as LaravelConfigCacheCommand;
+use Illuminate\Foundation\Console\OptimizeClearCommand as LaravelOptimizeClearCommand;
 
-#[AsCommand(name: 'config:cache')]
-class ConfigCacheCommand extends LaravelConfigCacheCommand
+#[AsCommand(name: 'optimize:clear')]
+class OptimizeClearCommand extends LaravelOptimizeClearCommand
 {
     use CommonOptions;
 
@@ -21,8 +21,10 @@ class ConfigCacheCommand extends LaravelConfigCacheCommand
      */
     public function callSilent($command, array $arguments = [])
     {
-        $arguments = array_merge($arguments, ['--domain' => $this->option('domain')]);
+        if (in_array($command, ['route:clear', 'config:clear'])) {
+            $arguments = array_merge($arguments, ['--domain' => $this->option('domain')]);
+        }
 
-        return parent::call($command, $arguments);
+        return parent::callSilent($command, $arguments);
     }
 }

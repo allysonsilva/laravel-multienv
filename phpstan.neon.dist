@@ -142,3 +142,10 @@ parameters:
         - config
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        -
+            message: '#^Trait (.*)BootstrappersTrait is used zero times and is not analysed.#'
+            path: src/Concerns/BootstrappersTrait.php
+        -
+            message: '#^Trait (.*)ConsoleCallTrait is used zero times and is not analysed.#'
+            path: src/Concerns/ConsoleCallTrait.php

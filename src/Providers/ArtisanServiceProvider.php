@@ -2,12 +2,15 @@
 
 namespace Allyson\MultiEnv\Providers;
 
+use Illuminate\Console\Signals;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Allyson\MultiEnv\Console\Commands\OptimizeCommand;
 use Allyson\MultiEnv\Console\Commands\RouteCacheCommand;
 use Allyson\MultiEnv\Console\Commands\RouteClearCommand;
 use Allyson\MultiEnv\Console\Commands\ConfigCacheCommand;
 use Allyson\MultiEnv\Console\Commands\ConfigClearCommand;
+use Allyson\MultiEnv\Console\Commands\OptimizeClearCommand;
 
 class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -19,6 +22,8 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
     protected $commands = [
         'ConfigCache' => ConfigCacheCommand::class,
         'ConfigClear' => ConfigClearCommand::class,
+        'Optimize' => OptimizeCommand::class,
+        'OptimizeClear' => OptimizeClearCommand::class,
         'RouteCache' => RouteCacheCommand::class,
         'RouteClear' => RouteClearCommand::class,
     ];
@@ -31,6 +36,14 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
     public function register(): void
     {
         $this->registerCommands($this->commands);
+
+        // @codeCoverageIgnoreStart
+        Signals::resolveAvailabilityUsing(function () {
+            return $this->app->runningInConsole()
+                && ! $this->app->runningUnitTests()
+                && extension_loaded('pcntl');
+        });
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -52,8 +65,16 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
      */
     protected function registerCommands(array $commands): void
     {
-        foreach (array_keys($commands) as $command) {
-            $this->{"register{$command}Command"}();
+        foreach (array_keys($commands) as $commandName) {
+            $method = "register{$commandName}Command";
+
+            if (method_exists($this, $method)) {
+                $this->{$method}();
+
+                continue;
+            }
+
+            $this->app->singleton($commandName);
         }
 
         $commands = array_values($commands);

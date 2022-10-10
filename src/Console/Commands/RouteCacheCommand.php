@@ -4,9 +4,11 @@ namespace Allyson\MultiEnv\Console\Commands;
 
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\RouteCollectionInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Allyson\MultiEnv\Console\Concerns\CommonOptions;
 use Illuminate\Foundation\Console\RouteCacheCommand as FoundationRouteCacheCommand;
 
+#[AsCommand(name: 'route:cache')]
 class RouteCacheCommand extends FoundationRouteCacheCommand
 {
     use CommonOptions;
