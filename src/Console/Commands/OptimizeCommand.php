@@ -4,10 +4,10 @@ namespace Allyson\MultiEnv\Console\Commands;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Allyson\MultiEnv\Console\Concerns\CommonOptions;
-use Illuminate\Foundation\Console\ConfigCacheCommand as LaravelConfigCacheCommand;
+use Illuminate\Foundation\Console\OptimizeCommand as LaravelOptimizeCommand;
 
-#[AsCommand(name: 'config:cache')]
-class ConfigCacheCommand extends LaravelConfigCacheCommand
+#[AsCommand(name: 'optimize')]
+class OptimizeCommand extends LaravelOptimizeCommand
 {
     use CommonOptions;
 
@@ -23,6 +23,6 @@ class ConfigCacheCommand extends LaravelConfigCacheCommand
     {
         $arguments = array_merge($arguments, ['--domain' => $this->option('domain')]);
 
-        return parent::call($command, $arguments);
+        return parent::callSilent($command, $arguments);
     }
 }

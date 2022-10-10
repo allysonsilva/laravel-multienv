@@ -79,7 +79,7 @@ class LoadEnvironmentVariables extends LaravelLoadEnvironmentVariables
         return Dotenv::create(
             Env::getRepository(),
             [$app->environmentPath(), $envsCustomPath],
-            [$app->environmentFile(), ...$envsInRootDirectory, $this->domainEnvFilename],
+            [$app->environmentFile(), ...$envsInRootDirectory, $this->domainEnvFilename], // @phpstan-ignore-line
             false
         );
     }
