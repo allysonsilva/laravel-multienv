@@ -140,6 +140,8 @@ parameters:
     paths:
         - src
         - config
+    excludePaths:
+        - tests/*
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:

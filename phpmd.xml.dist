@@ -8,6 +8,7 @@
         APP Mess Detector
     </description>
 
+    <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*/**/console.php</exclude-pattern>
     <exclude-pattern>*/database/migrations/*</exclude-pattern>
 

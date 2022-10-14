@@ -25,6 +25,7 @@
     <file>src</file>
 
     <!-- Excludes -->
+    <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*/database/migrations/*</exclude-pattern>
     <exclude-pattern>*.(css|js|json|html|yml|yaml)</exclude-pattern>
 
